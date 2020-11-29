@@ -14,4 +14,8 @@ unsigned int
   ReadSerChar
 		(unsigned char* cArr);
 
+void
+  WriteSerChar
+		(unsigned char c);
+
 /* END -----------------------------------------------------------------------*/

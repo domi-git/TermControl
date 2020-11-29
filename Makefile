@@ -13,11 +13,11 @@
 # Einstellungen
 #----------------------------------------------------------------------
 
-# Verzeichnisse
+# Directories
 BINDIR=./
 SRCDIR=../
 
-# Name resultierenden Binary-Files
+# Name of resulting binary files
 BINNAME=TermControl 
 
 # Compiler
@@ -28,7 +28,8 @@ CFLAGS=`pkg-config --cflags gtk+-3.0` `pkg-config --libs gtk+-3.0 gmodule-2.0`
 
 # Linker-Flags
 # lm = Link against math-library
-LDFLAGS=-lm
+# lncurses = Link against ncurses library
+LDFLAGS=-lm -lncurses -ltinfo
 
 # Source-Files
 SRCS=main.c \
@@ -43,12 +44,11 @@ OBJS:=$(SRCS:.c=.o)
 .PHONY: all
 all: $(OBJS) $(SUFILE_OBJ)
 	@echo build $(BINNAME)
-	@$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) $(SUFILE_OBJ) -o $(BINDIR)$(BINNAME)
-	ctags -R . /usr/include/gtk-3.0/ /usr/include/glib-2.0/ /usr/include/termios.h
+	@$(CC) $(CFLAGS) $(OBJS) $(SUFILE_OBJ) -o $(BINDIR)$(BINNAME) $(LDFLAGS)
 
 %.o: $(SRCDIR)%.c
 	@echo compile $@
-	@$(CC) $(CFLAGS) $(LDFLAGS) -c $^ -o $(BINDIR)$@ 
+	@$(CC) $(CFLAGS) -c $^ -o $(BINDIR)$@ $(LDFLAGS) 
 
 .PHONY: clean
 clean:
